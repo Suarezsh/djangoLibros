@@ -1,4 +1,4 @@
-<h1>Books</h1>
+<h1>Libros</h1>
 <ul>
   {% for book in books %}
     <li><a href="{% url 'book_reviews' book.id %}">{{ book.title }}</a></li>
