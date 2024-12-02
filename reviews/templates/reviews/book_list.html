@@ -12,10 +12,14 @@
     <div class="container mt-5">
         <h1 class="mb-4">Lista de Libros</h1>
 
-        <!-- Botón para agregar libro -->
         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addBookModal">Agregar Libro</button>
+        <button class="btn btn-success mb-3" 
+        data-bs-toggle="modal" 
+        data-bs-target="#addReviewModal" 
+        onclick="prepareReviewForm({{ book.id }})">
+    Añadir Reseña
+</button>
 
-        <!-- Lista de libros -->
         <ul class="list-group">
           {% for book in books %}
               <li class="list-group-item">
@@ -30,12 +34,7 @@
                       Ver Reseñas
                   </button>
       
-                  <button class="btn btn-primary btn-sm" 
-                          data-bs-toggle="modal" 
-                          data-bs-target="#addReviewModal" 
-                          onclick="prepareReviewForm({{ book.id }})">
-                      Añadir Reseña
-                  </button>
+                 
               </li>
           {% endfor %}
       </ul>
@@ -43,7 +42,6 @@
       
     </div>
 
-    <!-- Modal para agregar libro -->
     <div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -130,7 +128,6 @@
             });
         });
 
-        // Manejar envío del formulario de reseña
         $('#reviewForm').on('submit', function(e) {
             e.preventDefault();
             $.post("{% url 'add_review' %}", $(this).serialize(), function(response) {
@@ -145,15 +142,11 @@
     <script>
       function loadReviews(bookId) {
           $.get(`/book_reviews/${bookId}/`, function(data) {
-              // Actualizar el título del modal
               $('#reviewsBookTitle').text(`Reseñas de: ${data.book_title}`);
               
-              // Limpiar la lista de reseñas
               $('#reviewsList').empty();
   
-              // Verificar si hay reseñas
               if (data.reviews.length > 0) {
-                  // Agregar cada reseña a la lista
                   data.reviews.forEach(function(review) {
                       $('#reviewsList').append(`
                           <li class="list-group-item">

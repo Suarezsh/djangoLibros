@@ -29,6 +29,7 @@ def add_review(request):
             form.save()
             return JsonResponse({'success': True})
     return JsonResponse({'success': False, 'errors': form.errors})
+
 def book_reviews(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     reviews = book.reviews.all()
